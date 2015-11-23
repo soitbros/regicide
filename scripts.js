@@ -1,9 +1,4 @@
 //sets value of card suits, face values, and assigns health to jack, queen, and king
-var cardColors = [
-  "red",
-  "black"
-];
-
 var cardSuits = [
   "Spades",
   "Hearts",
@@ -22,23 +17,26 @@ var cardValues = [
   "8",
   "9",
   "10",
-  "Jack",
+  "Jack"
+];
+
+var royalValues = [
   "Queen",
   "King"
 ];
 
-function cardRegular(colors,suits,values) {
-  this.colors = cardColors;
+function cardRegular(suits,values) {
   this.suits = cardSuits;
   this.values = cardValues;
   this.cardHit = values;
+  this.createNode = makeNode;
 }
 
-function cardRoyalty(colors,suits,values) {
-  this.colors = cardColors;
+function cardRoyalty(suits,values) {
   this.suits = cardSuits;
-  this.values = cardValues;
+  this.values = royalValues;
   this.cardHealth = 21;
+  this.createNode = makeNode;
 }
 
 function cardStack() {
@@ -48,13 +46,30 @@ function cardStack() {
   this.reshuffleDeck
 }
 
+var colorBlack = [
+  "spade"
+]
+
+var colorRed
+
+Array.prototype.pullCard = function() {
+  return this[Math.floor(Math.random() * this.length)];
+}
+
 // You will eventually also have a Discard Pile and a Graveyard.
 
 if (cardHealth === 0) {
-  move to
+  move to .graveyard
 }
 
 // Three “shots” (three shots will be referred to as a “Volley”) are dealt at a time from the Draw Pile. Monarchs will accumulate “hits” until they are killed and removed to the Graveyard. Hits are automatic once fired and assigned as follows:
+
+var startVolley = function () {
+  pullCard * 3;
+  if color
+}
+
+
 // Monarchs are hit by cards numbered 2 through 10 of their own suit.
 // Queens are hit by even­numbered cards only.
 // Kings are hit by odd­numbered cards only.
