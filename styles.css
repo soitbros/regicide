@@ -1,0 +1,44 @@
+.wrapper {
+  height: 100%;
+  width: 100%;
+  margin: auto;
+  padding: 0;
+  text-align: center;
+  background-color: pink;
+}
+header {
+  height: 15%;
+  width: 100%;
+  background-color: yellow;
+}
+/*h1*/
+content {
+  height: 80%;
+  width: 90%;
+  background-color: blue;
+}
+.opponent_bar {
+  height: 25%;
+  width: 100%;
+  background-color: green;
+}
+.opponent_one, .opponent_two, .opponent_three {
+  width: 30%;
+  display: inline-block;
+  background-color: white;
+}
+/*.king
+.queen
+.score*/
+.play_area {
+  height: 70%;
+  width: 75%;
+  background-color: orange;
+}
+.sidebar {
+  height: 70%;
+  width: 20%;
+  background-color: lightblue;
+}
+/*.discard
+.graveyard*/
