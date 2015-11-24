@@ -29,7 +29,8 @@ content {
 }
 /*.king
 .queen
-.score*/
+.score
+.low_bar*/
 .play_area {
   height: 70%;
   width: 75%;

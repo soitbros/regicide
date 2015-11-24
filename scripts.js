@@ -1,5 +1,4 @@
 //sets value of card suits, face values, and assigns health to jack, queen, and king
-// clubs = \u2663, diamonds = \u2666, spades = \u2660, hearts = \u2665
 var cardSuits = [
   "Spades",
   "Hearts",
@@ -17,11 +16,11 @@ var cardValues = [
   "7",
   "8",
   "9",
-  "10"
+  "10",
+  "Jack"
 ];
 
 var royalValues = [
-  "Jack",
   "Queen",
   "King"
 ];
@@ -29,30 +28,86 @@ var royalValues = [
 function cardRegular(suits,values) {
   this.suits = cardSuits;
   this.values = cardValues;
-  this.cardHit = values;
+  this.cardHit = parseInt(values);
   this.createNode = makeNode;
 }
 
 function cardRoyalty(suits,values) {
   this.suits = cardSuits;
   this.values = royalValues;
-  this.cardHealth = 21;
   this.createNode = makeNode;
+  this.cardHealth = 21;
   this.cardHit = 21;
 }
 
 function cardStack() {
-  this.makeDeck = new Array ();
-  this.shuffleDeck
-  this.dealDeck
-  this.reshuffleDeck
+  this.cards = [];
+  this.makeDeck = cardDeck;
+  this.shuffleDeck = cardShuffle;
+  this.dealDeck = cardDeal;
 }
 
-var colorRed
-
-Array.prototype.pullCard = function() {
-  return this[Math.floor(Math.random() * this.length)];
+function royalStack() {
+  this.cards = [];
+  this.makeRoyals = royalDeck;
 }
+
+deck = new cardStack();
+royals = new royalStack();
+
+// clubs = \u2663, diamonds = \u2666, spades = \u2660, hearts = \u2665
+
+
+function cardDeck() {
+  var m = cardSuits.length * cardValues.length;
+  this.cards = [];
+  for (var i = 0; i < cardSuits.length; i++) {
+    for (var j = 0; j < cardValues.length; j++) {
+      this.cards[m + i * cardValues.length + j] =
+        cardRegular(cardValues[j], cardSuits[i]);
+    }
+  }
+}
+
+function royalDeck() {
+  var m = cardSuits.length * royalValues.length;
+  this.cards = [];
+  for (var i = 0; i < cardSuits.length; i++) {
+    for (var j = 0; j < royalValues.length; j++) {
+      this.cards[m + i * royalValues.length + j] =
+        cardRoyalty(royalValues[j], cardSuits[i]);
+    }
+  }
+}
+
+function cardShuffle() {
+  for (var i = 0; i < 3; i++)
+    for (var j = 0; j < this.cards.length; j++) {
+      var k = Math.floor(Math.random() * this.cards.length);
+      var temp = this.cards[j];
+      this.cards[j] = this.cards[k];
+      this.cards[k] = temp;
+    }
+}
+
+function cardDeal() {
+  if (this.cards.length > 2)
+    return (3 * this.cards.shift());
+  else
+    return null;
+}
+
+function makeNode() {
+  var cardNode = document.createElement("div");
+  cardNode.className = "card";
+}
+
+// inserts protagonists
+
+$('select').on('change', function() {
+  $('')
+})
+
 
 // You will eventually also have a Discard Pile and a Graveyard.
 
@@ -63,7 +118,8 @@ if (cardHealth === 0) {
 // Three “shots” (three shots will be referred to as a “Volley”) are dealt at a time from the Draw Pile. Monarchs will accumulate “hits” until they are killed and removed to the Graveyard. Hits are automatic once fired and assigned as follows:
 
 var startVolley = function () {
-  pullCard * 3;
+  cardDeal();
+  if 
   if (Ace == royalSuit) {
     var cardHealth = cardHealth + highest cardHit;
     move highest Card to .discard;
