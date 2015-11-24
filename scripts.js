@@ -25,17 +25,17 @@ var royalValues = [
   "King"
 ];
 
-function cardRegular(suits,values) {
-  this.suits = cardSuits;
-  this.values = cardValues;
-  this.cardHit = parseInt(values);
+function cardRegular(cardValue,cardSuit) {
+  this.suit = cardSuit;
+  this.value = cardValue;
+  this.cardHit = parseInt(this.value);
   this.createNode = makeNode;
 }
 
-function cardRoyalty(suits,values) {
-  this.suits = cardSuits;
-  this.values = royalValues;
-  this.createNode = makeNode;
+function cardRoyalty(royalValue,cardSuit) {
+  this.suit = cardSuit;
+  this.value = royalValue;
+  this.createRoyalNode = makeRoyalNode;
   this.cardHealth = 21;
   this.cardHit = 21;
 }
@@ -53,29 +53,30 @@ function royalStack() {
 }
 
 deck = new cardStack();
+deck.makeDeck();
+deck.shuffleDeck();
 royals = new royalStack();
+royals.makeRoyals();
 
 // clubs = \u2663, diamonds = \u2666, spades = \u2660, hearts = \u2665
 
 
 function cardDeck() {
-  var m = cardSuits.length * cardValues.length;
   this.cards = [];
   for (var i = 0; i < cardSuits.length; i++) {
     for (var j = 0; j < cardValues.length; j++) {
-      this.cards[m + i * cardValues.length + j] =
-        cardRegular(cardValues[j], cardSuits[i]);
+      this.cards[i * cardValues.length + j] =
+      new cardRegular(cardValues[j], cardSuits[i]);
     }
   }
 }
 
 function royalDeck() {
-  var m = cardSuits.length * royalValues.length;
   this.cards = [];
   for (var i = 0; i < cardSuits.length; i++) {
     for (var j = 0; j < royalValues.length; j++) {
-      this.cards[m + i * royalValues.length + j] =
-        cardRoyalty(royalValues[j], cardSuits[i]);
+      this.cards[i * royalValues.length + j] =
+      new cardRoyalty(royalValues[j], cardSuits[i]);
     }
   }
 }
@@ -92,7 +93,9 @@ function cardShuffle() {
 
 function cardDeal() {
   if (this.cards.length > 2)
-    return (3 * this.cards.shift());
+    for (var i = 0; i < array.length; i++) {
+      array[i]
+    }
   else
     return null;
 }
@@ -104,10 +107,7 @@ function makeNode() {
 
 // inserts protagonists
 
-$('select').on('change', function() {
-  $('')
-})
-
+$( "select option:selected" );
 
 // You will eventually also have a Discard Pile and a Graveyard.
 
@@ -119,7 +119,7 @@ if (cardHealth === 0) {
 
 var startVolley = function () {
   cardDeal();
-  if 
+  if
   if (Ace == royalSuit) {
     var cardHealth = cardHealth + highest cardHit;
     move highest Card to .discard;

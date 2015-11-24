@@ -25,7 +25,8 @@ content {
 .opponent_one, .opponent_two, .opponent_three {
   width: 30%;
   display: inline-block;
-  background-color: white;
+  background-color: gray;
+  height: 8em;
 }
 /*.king
 .queen
@@ -35,6 +36,9 @@ content {
   height: 70%;
   width: 75%;
   background-color: orange;
+}
+.play_area .king, .play_area .queen {
+  height: 15em;
 }
 .sidebar {
   height: 70%;
