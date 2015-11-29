@@ -9,6 +9,12 @@ body {
   text-align: center;
   background-color: pink;
 }
+.card {
+  position: fixed;
+  background: url('http://lorempixel.com/62/100/cats');
+  border: 3px solid white;
+  border-radius: 4px;
+}
 header {
   height: 15%;
   width: 100%;
@@ -30,8 +36,9 @@ content {
   display: inline-block;
   background-color: gray;
 }
-.king, .queen {
+.king .card, .queen .card {
   display: inline-block;
+  position: relative;
 }
 .health_king, .health_queen {
   font-size: 1.25em;
@@ -69,12 +76,6 @@ content {
   width: 10%;
   background-color: lightblue;
 }
-.card {
-  position: fixed;
-  background: url('http://lorempixel.com/62/100/cats');
-  border: 3px solid white;
-  border-radius: 4px;
-}
 .front, .royal {
   height: 100px;
   width: 62px;
@@ -90,7 +91,9 @@ content {
   font-size: 2em;
   margin-top: 50%;
 }
-
+.discard {
+  z-index: 1000;
+}
 #red {
   color: red;
 }

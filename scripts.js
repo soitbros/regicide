@@ -33,7 +33,6 @@ var royalValues = [
 function cardRegular(cardValue,cardSuit) {
   this.suit = cardSuit;
   this.value = cardValue;
-  this.cardHit = parseInt(this.value);
   this.createCard = makeCard;
 }
 
@@ -139,6 +138,21 @@ function cardShuffle() {
     }
 }
 
+// deals cards
+
+function cardsDeal() {
+
+  if (this.cards.length > 0)
+    return this.cards.shift();
+  else
+    return null;
+}
+
+// adds cards
+function addCards(card) {
+  this.cards.push(card);
+}
+
 // combines cards
 
 function cardsCombine(stack) {
@@ -173,7 +187,7 @@ function makeCard() {
 
   spot.append(document.createTextNode(this.value + spotChar));
 
-  if (this.value === "K" || this.value ==="Q") {
+  if (this.value === "K" || this.value === "Q") {
     royal.append(spot);
     card.append(royal);
   } else {
@@ -184,28 +198,18 @@ function makeCard() {
   return card;
 }
 
+// shuffles
+
+function shuffle() {
+  if (deck == null) return;
+  deck.shuffleDeck();
+  cardVolley();
+}
+
 // deals cards
 
-function cardsDeal() {
-
-  if (this.cards.length > 0)
-    return this.cards.shift();
-  else
-    return null;
-}
-
-function addCards(card) {
-  this.cards.push(card);
-}
-
-// event listeners
-
-$(".volley").on("click", deal);
-$(".tally").on("click", discards);
-
-
 function deal() {
-  if (deck === null) return;
+  if (deck == null) return;
   if (deck.cards.length < 3)
     alert("Not enough cards.");
   else {
@@ -216,10 +220,50 @@ function deal() {
   cardVolley();
 }
 
+function changeScore() {
+  var playerQueen = royals.cards[0];
+  var playerKing = royals.cards[1];
+  var opp1Queen = royals.cards[2];
+  var opp1King = royals.cards[3];
+  var opp2Queen = royals.cards[4];
+  var opp2King = royals.cards[5];
+  var opp3Queen = royals.cards[6];
+  var opp3King = royals.cards[7];
+
+  for (var i = 0; i < hand.cards.length; i++) {
+    var cardVal = parseInt(hand.cards[i].value);
+    if (playerKing.suit === hand.cards[i].suit && cardVal % 2 !== 0) {
+      playerKing.cardHealth = playerKing.cardHealth - cardVal;
+    } else if (playerQueen.suit === hand.cards[i].suit && cardVal % 2 == 0) {
+      playerQueen.cardHealth = playerQueen.cardHealth - cardVal;
+    } else if (opp1King.suit === hand.cards[i].suit && cardVal % 2 !== 0) {
+      opp1King.cardHealth = opp1King.cardHealth - cardVal;
+    } else if (opp1Queen.suit === hand.cards[i].suit && cardVal % 2 == 0) {
+      opp1Queen.cardHealth = opp1Queen.cardHealth - cardVal;
+    } else if (opp2King.suit === hand.cards[i].suit && cardVal % 2 !== 0) {
+      opp2King.cardHealth = opp2King.cardHealth - cardVal;
+    } else if (opp2Queen.suit === hand.cards[i].suit && cardVal % 2 == 0) {
+      opp2Queen.cardHealth = opp2Queen.cardHealth - cardVal;
+    } else if (opp3King.suit === hand.cards[i].suit && cardVal % 2 !== 0) {
+      opp3King.cardHealth = opp3King.cardHealth - cardVal;
+    } else if (opp3Queen.suit === hand.cards[i].suit && cardVal % 2 == 0) {
+      opp3Queen.cardHealth = opp3Queen.cardHealth - cardVal;
+    }
+  }
+  $('.play_area .health_queen').text(playerQueen.cardHealth);
+  $('.play_area .health_king').text(playerKing.cardHealth);
+  $('.opponent_one .health_queen').text(opp1Queen.cardHealth);
+  $('.opponent_one .health_king').text(opp1King.cardHealth);
+  $('.opponent_two .health_queen').text(opp2Queen.cardHealth);
+  $('.opponent_two .health_king').text(opp2King.cardHealth);
+  $('.opponent_three .health_queen').text(opp3Queen.cardHealth);
+  $('.opponent_three .health_king').text(opp3King.cardHealth);
+}
+
 // discards
 
 function discards() {
-  if (deck === null) return;
+  if (deck == null) return;
   discard.combine(hand);
   cardVolley();
 }
@@ -227,7 +271,8 @@ function discards() {
 // resets
 
 function reset() {
-  if (deck === null) return;
+  var starter;
+  if (deck == null) return;
   discard.combine(hand);
   deck.combine(discard);
   cardVolley();
@@ -239,8 +284,7 @@ function cardVolley() {
   var left = 0;
   var top = 0;
   var starter = $(".deck");
-  while (starter.firstChild != null)
-    starter.removeChild(starter.firstChild);
+  starter[0].innerHTML = "";
   for (var i = 0; i < deck.cards.length; i++) {
     card = deck.cards[i].createCard();
     card.children().css("visibility", "hidden");
@@ -252,8 +296,7 @@ function cardVolley() {
   }
 
   var starter = $(".deal");
-  while (starter.firstChild != null)
-    starter.removeChild(starter.firstChild);
+  starter[0].innerHTML = "";
   for (var i = 0; i < hand.cards.length; i++) {
     card = hand.cards[i].createCard();
     card.css("margin-top", top + "em");
@@ -262,8 +305,7 @@ function cardVolley() {
   }
 
   var starter = $(".discard");
-  while (starter.firstChild != null)
-    starter.removeChild(starter.firstChild);
+  starter[0].innerHTML = "";
   for (var i = 0; i < discard.cards.length; i++) {
     card = discard.cards[i].createCard();
     card.css("margin-left", left + "em");
@@ -274,6 +316,11 @@ function cardVolley() {
   }
 }
 
+
+// event listeners
+
+$(".volley").on("click", deal);
+$(".tally").on("click", changeScore);
 
 
 // setTimeout(deal, 3500);
