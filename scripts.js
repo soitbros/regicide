@@ -221,17 +221,15 @@ function deal() {
 }
 
 function changeScore() {
-  var playerQueen = royals.cards[0];
-  var playerKing = royals.cards[1];
-  var opp1Queen = royals.cards[2];
-  var opp1King = royals.cards[3];
-  var opp2Queen = royals.cards[4];
-  var opp2King = royals.cards[5];
-  var opp3Queen = royals.cards[6];
-  var opp3King = royals.cards[7];
-
   for (var i = 0; i < hand.cards.length; i++) {
-    var cardVal = parseInt(hand.cards[i].value);
+    if (hand.cards[i].value === "A") {
+      var cardVal = -Math.floor((Math.random()*10));
+    } else if (hand.cards[i].value === "J") {
+      var cardVal = Math.floor(Math.random()*10);
+    } else {
+      var cardVal = parseInt(hand.cards[i].value);
+    }
+
     if (playerKing.suit === hand.cards[i].suit && cardVal % 2 !== 0) {
       playerKing.cardHealth = playerKing.cardHealth - cardVal;
     } else if (playerQueen.suit === hand.cards[i].suit && cardVal % 2 == 0) {
@@ -250,14 +248,57 @@ function changeScore() {
       opp3Queen.cardHealth = opp3Queen.cardHealth - cardVal;
     }
   }
+  if (playerQueen.cardHealth <= 0) {
+  $('.play_area .health_queen').text("0");
+  $('.play_area .queen').attr('id','dead');
+  } else {
   $('.play_area .health_queen').text(playerQueen.cardHealth);
+  }
+  if (playerKing.cardHealth <= 0) {
+  $('.play_area .health_king').text("0");
+  $('.play_area .king').attr('id','dead');
+  } else {
   $('.play_area .health_king').text(playerKing.cardHealth);
-  $('.opponent_one .health_queen').text(opp1Queen.cardHealth);
-  $('.opponent_one .health_king').text(opp1King.cardHealth);
-  $('.opponent_two .health_queen').text(opp2Queen.cardHealth);
-  $('.opponent_two .health_king').text(opp2King.cardHealth);
-  $('.opponent_three .health_queen').text(opp3Queen.cardHealth);
-  $('.opponent_three .health_king').text(opp3King.cardHealth);
+  }
+  if (opp1Queen.cardHealth <= 0) {
+    $('.opponent_one .health_queen').text("0");
+    $('.opponent_one .queen').attr('id','dead');
+  } else {
+    $('.opponent_one .health_queen').text(opp1Queen.cardHealth);
+  }
+  if (opp1King.cardHealth <= 0) {
+    $('.opponent_one .health_king').text("0");
+    $('.opponent_one .king').attr('id','dead');
+  } else {
+    $('.opponent_one .health_king').text(opp1King.cardHealth);
+  }
+  if (opp2Queen.cardHealth <= 0) {
+    $('.opponent_two .health_queen').text("0");
+    $('.opponent_two .queen').attr('id','dead');
+  } else {
+    $('.opponent_two .health_queen').text(opp2Queen.cardHealth);
+  }
+  if (opp2King.cardHealth <= 0) {
+    $('.opponent_two .health_king').text("0");
+    $('.opponent_two .king').attr('id','dead');
+  } else {
+    $('.opponent_two .health_king').text(opp2King.cardHealth);
+  }
+  if (opp3Queen.cardHealth <= 0) {
+    $('.opponent_three .health_queen').text("0");
+    $('.opponent_three .queen').attr('id','dead');
+  } else {
+    $('.opponent_three .health_queen').text(opp3Queen.cardHealth);
+  }
+  if (opp3King.cardHealth <= 0) {
+    $('.opponent_three .health_king').text("0");
+    $('.opponent_three .king').attr('id','dead');
+  } else {
+    $('.opponent_three .health_king').text(opp3King.cardHealth);
+  }
+  if (playerQueen.cardHealth == 0 && playerKing.cardHealth == 0) {
+    $('.play_area').attr('id','lose');
+  }
 }
 
 // discards
@@ -319,47 +360,13 @@ function cardVolley() {
 
 // event listeners
 
-$(".volley").on("click", deal);
+$(".flop").on("click", deal);
 $(".tally").on("click", changeScore);
+$(".reshuffle").on("click", reset);
 
 
 // setTimeout(deal, 3500);
 // setTimeout(deal, 7000);
 // setTimeout(deal, 10000);
-
-// health bars
-
-
-
-// You will eventually also have a Discard Pile and a Graveyard.
-
-// if (cardHealth === 0) {
-//   move to .graveyard
-// }
-
-// Three “shots” (three shots will be referred to as a “Volley”) are dealt at a time from the Draw Pile. Monarchs will accumulate “hits” until they are killed and removed to the Graveyard. Hits are automatic once fired and assigned as follows:
-
-// var startVolley = function () {
-//   cardDeal();
-//   if
-//   if (Ace == royalSuit) {
-//     var cardHealth = cardHealth + highest cardHit;
-//     move highest Card to .discard;
-//   } else if (highest cardSuits == royalSuit && cardValues % 2 === 0) {
-//     var cardHealthQueen = cardHealthQueen - cardHit;
-//   } else if (highest cardSuits == royalSuit && cardValues % 2 != 0) {
-//     var cardHealthKing = cardHealthKing - cardHit;
-//   } else if royalJack and jackOpposite Suit {
-//     move both to .graveyard
-//   } else if royalJack && one Royal Dead {
-//     royalJack appendChild(royalsDiv)
-//   } else if royalJack {
-//     //attack opponent opposite color royal
-//   } else (highest cardSuits) {
-//     //attack opponent (if all three are different suits, all three will attack opponents)
-//   }
-// }
-
-// win condition : last one standing
 
 }
