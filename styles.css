@@ -28,10 +28,16 @@ content {
   background-color: gray;
   height: 8em;
 }
-/*.king
-.queen
-.score
-.low_bar*/
+.king, .queen{
+  display: inline-block;
+}
+/*.score
+.low_bar
+<div class="deck_deal">
+  <div class="deck">
+
+  </div>
+  <div class="deal">*/
 .play_area {
   height: 70%;
   width: 75%;
@@ -44,6 +50,19 @@ content {
   height: 70%;
   width: 20%;
   background-color: lightblue;
+}
+.card {
+  height: 200px;
+  width: 160px;
+  background-color: white;
+  border-radius: 4px;
+  display:inline-block;
+}
+.royal {
+  height: 200px;
+  width: 160px;
+  background-color: yellow;
+  border-radius: 4px;
 }
 /*.discard
 .graveyard*/

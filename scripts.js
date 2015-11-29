@@ -1,3 +1,7 @@
+window.onload = init;
+
+function init(){
+
 //sets value of card suits, face values, and assigns health to jack, queen, and king
 var cardSuits = [
   "Spades",
@@ -35,9 +39,7 @@ function cardRegular(cardValue,cardSuit) {
 function cardRoyalty(royalValue,cardSuit) {
   this.suit = cardSuit;
   this.value = royalValue;
-  this.createRoyalNode = makeRoyalNode;
   this.cardHealth = 21;
-  this.cardHit = 21;
 }
 
 function cardStack() {
@@ -57,6 +59,7 @@ deck.makeDeck();
 deck.shuffleDeck();
 royals = new royalStack();
 royals.makeRoyals();
+card = cardDeal();
 
 // clubs = \u2663, diamonds = \u2666, spades = \u2660, hearts = \u2665
 
@@ -92,50 +95,59 @@ function cardShuffle() {
 }
 
 function cardDeal() {
-  if (this.cards.length > 2)
-    for (var i = 0; i < array.length; i++) {
-      array[i]
-    }
-  else
+  if (deck.cards.length > 0) {
+    return deck.cards.shift();
+  } else {
     return null;
+  }
 }
 
 function makeNode() {
-  var cardNode = document.createElement("div");
-  cardNode.className = "card";
+  return $('<div>').attr('class', 'card');
 }
 
 // inserts protagonists
 
-$( "select option:selected" );
+var playerQueen = royals.cards[0];
+var playerKing = royals.cards[1];
+
+$('.play_area .king').append(($('<div>').text(playerKing.value)).attr('class', 'royal'));
+$('.play_area .king .royal').append(' ' + playerKing.suit);
+$('.play_area .queen').append(($('<div>').text(playerQueen.value)).attr('class', 'royal'));
+$('.play_area .queen .royal').append(' ' + playerQueen.suit);
+
+// $( "select option:selected" );
 
 // You will eventually also have a Discard Pile and a Graveyard.
 
-if (cardHealth === 0) {
-  move to .graveyard
-}
+// if (cardHealth === 0) {
+//   move to .graveyard
+// }
 
 // Three “shots” (three shots will be referred to as a “Volley”) are dealt at a time from the Draw Pile. Monarchs will accumulate “hits” until they are killed and removed to the Graveyard. Hits are automatic once fired and assigned as follows:
 
-var startVolley = function () {
-  cardDeal();
-  if
-  if (Ace == royalSuit) {
-    var cardHealth = cardHealth + highest cardHit;
-    move highest Card to .discard;
-  } else if (highest cardSuits == royalSuit && cardValues % 2 === 0) {
-    var cardHealthQueen = cardHealthQueen - cardHit;
-  } else if (highest cardSuits == royalSuit && cardValues % 2 != 0) {
-    var cardHealthKing = cardHealthKing - cardHit;
-  } else if royalJack and jackOpposite Suit {
-    move both to .graveyard
-  } else if royalJack && one Royal Dead {
-    royalJack appendChild(royalsDiv)
-  } else if royalJack {
-    //attack opponent opposite color royal
-  } else (highest cardSuits) {
-    //attack opponent (if all three are different suits, all three will attack opponents)
-  }
-}
+// var startVolley = function () {
+//   cardDeal();
+//   if
+//   if (Ace == royalSuit) {
+//     var cardHealth = cardHealth + highest cardHit;
+//     move highest Card to .discard;
+//   } else if (highest cardSuits == royalSuit && cardValues % 2 === 0) {
+//     var cardHealthQueen = cardHealthQueen - cardHit;
+//   } else if (highest cardSuits == royalSuit && cardValues % 2 != 0) {
+//     var cardHealthKing = cardHealthKing - cardHit;
+//   } else if royalJack and jackOpposite Suit {
+//     move both to .graveyard
+//   } else if royalJack && one Royal Dead {
+//     royalJack appendChild(royalsDiv)
+//   } else if royalJack {
+//     //attack opponent opposite color royal
+//   } else (highest cardSuits) {
+//     //attack opponent (if all three are different suits, all three will attack opponents)
+//   }
+// }
 
 // win condition : last one standing
+
+
+}
