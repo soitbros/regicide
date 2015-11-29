@@ -1,3 +1,6 @@
+body {
+  background: silver;
+}
 .wrapper {
   height: 100%;
   width: 100%;
@@ -45,14 +48,16 @@ content {
   background-color: rebeccapurple;
 }
 .deck {
-  height: 20%;
+  height: 8em;
   width: 100%;
   background-color: tan;
+  position: relative;
 }
 .deal {
-  height: 80%;
+  height: 7em;
   width: 100%;
   background-color: teal;
+  position: relative;
 }
 .play_area {
   height: 70%;
@@ -64,26 +69,30 @@ content {
   width: 10%;
   background-color: lightblue;
 }
+.card {
+  position: fixed;
+  background: url('http://lorempixel.com/62/100/cats');
+  border: 3px solid white;
+  border-radius: 4px;
+}
 .front, .royal {
   height: 100px;
   width: 62px;
   background-color: white;
-  border-radius: 4px;
   display:inline-block;
   margin: 0 auto;
+  border: 1px solid black;
 }
 .royal {
-  background-color: yellow;
+  background-color: silver;
 }
 .index {
   font-size: 2em;
   margin-top: 50%;
 }
+
 #red {
   color: red;
-}
-div {
-  display: inline-block;
 }
 /*.discard
 .graveyard*/

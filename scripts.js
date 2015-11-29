@@ -48,7 +48,8 @@ function cardStack() {
   this.cards = [];
   this.makeDeck = cardDeck;
   this.shuffleDeck = cardShuffle;
-  this.dealDeck = cardDeal;
+  this.deckDeal = cardsDeal;
+  this.addCard = addCards;
 }
 
 function royalStack() {
@@ -59,9 +60,10 @@ function royalStack() {
 deck = new cardStack();
 deck.makeDeck();
 deck.shuffleDeck();
+hand = new cardStack();
+discard = new cardStack();
 royals = new royalStack();
 royals.makeRoyals();
-card = deck.dealDeck();
 
 // standard deck creation
 
@@ -101,12 +103,28 @@ function cardShuffle() {
 
 // deals cards
 
-function cardDeal() {
-  if (deck.cards.length > 0) {
-    return deck.cards.shift();
-  } else {
+function cardsDeal() {
+
+  if (this.cards.length > 0)
+    return this.cards.shift();
+  else
     return null;
+}
+
+function addCards(card) {
+  this.cards.push(card);
+}
+
+function deal() {
+  if (deck === null) return;
+  if (deck.cards.length < 3)
+    alert("Not enough cards.");
+  else {
+    // discard();
+    for (var i = 0; i < 3; i++)
+      hand.addCard(deck.deckDeal());
   }
+  cardVolley();
 }
 
 // creates cards
@@ -147,6 +165,49 @@ function makeCard() {
   return card;
 }
 
+// sets volley
+
+function cardVolley() {
+  var left = 0;
+  var top = 0;
+  var starter = $(".deck");
+  // while (starter.firstChild !== null)
+  //   starter.remove(starter.firstChild);
+  for (var i = 0; i < deck.cards.length; i++) {
+    card = deck.cards[i].createCard();
+    card.children().css("visibility", "hidden");
+    card.css("margin-left", left + "em");
+    card.css("margin-top", top + "em");
+    starter.append(card);
+    left += .010;
+    top += .005;
+  }
+
+  var flop = $(".deal");
+  // while (flop.firstChild !== null)
+  //   flop.removeChild(flop.firstChild);
+  for (var j = 0; j < hand.cards.length; j++) {
+    card = hand.cards[j].createCard();
+    card.css("margin-left", left + "em");
+    card.css("margin-top", top + "em");
+    flop.append(card);
+    left += 3.5;
+    top += 2;
+  }
+
+  // var discards = document.getElementsByClassName("discard");
+  // while (discard.firstChild != null)
+  //   discard.removeChild(starter.firstChild);
+  // for (var i = 0; i < discards.cards.length; i++) {
+  //   card = hand.cards[i].createCard();
+  //   card.style.left = left + "em";
+  //   card.style.top = top + "em";
+  //   discards.appendChild(card);
+  //   left += .010;
+  //   top += .005;
+  // }
+}
+
 // inserts protagonists
 
 var playerKing = royals.cards[1];
@@ -183,16 +244,11 @@ $('.opponent_three .queen').append(opp3Queen.createCard());
 $('.opponent_three .health_king').text(opp3King.cardHealth);
 $('.opponent_three .health_queen').text(opp3Queen.cardHealth);
 
-
-
-
-
-$('.deck_deal .deal').append(card.createCard());
-
+cardVolley();
 
 // health bars
 
-
+$(".volley").on("click", deal());
 
 // You will eventually also have a Discard Pile and a Graveyard.
 
