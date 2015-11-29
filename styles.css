@@ -20,49 +20,70 @@ content {
 .opponent_bar {
   height: 25%;
   width: 100%;
-  background-color: green;
+  background-color: red;
 }
 .opponent_one, .opponent_two, .opponent_three {
   width: 30%;
   display: inline-block;
   background-color: gray;
-  height: 8em;
 }
-.king, .queen{
+.king, .queen {
   display: inline-block;
+}
+.health_king, .health_queen {
+  font-size: 1.25em;
 }
 /*.score
 .low_bar
-<div class="deck_deal">
-  <div class="deck">
-
-  </div>
-  <div class="deal">*/
+*/
+.deck_deal, .play_area, .sidebar {
+  display: inline-block;
+}
+.deck_deal {
+  height: 70%;
+  width: 10%;
+  background-color: rebeccapurple;
+}
+.deck {
+  height: 20%;
+  width: 100%;
+  background-color: tan;
+}
+.deal {
+  height: 80%;
+  width: 100%;
+  background-color: teal;
+}
 .play_area {
   height: 70%;
   width: 75%;
-  background-color: orange;
-}
-.play_area .king, .play_area .queen {
-  height: 15em;
+  background-color: green;
 }
 .sidebar {
   height: 70%;
-  width: 20%;
+  width: 10%;
   background-color: lightblue;
 }
-.card {
-  height: 200px;
-  width: 160px;
+.front, .royal {
+  height: 100px;
+  width: 62px;
   background-color: white;
   border-radius: 4px;
   display:inline-block;
+  margin: 0 auto;
 }
 .royal {
-  height: 200px;
-  width: 160px;
   background-color: yellow;
-  border-radius: 4px;
+}
+.index {
+  font-size: 2em;
+  margin-top: 50%;
+}
+#red {
+  color: red;
+}
+div {
+  display: inline-block;
 }
 /*.discard
 .graveyard*/
