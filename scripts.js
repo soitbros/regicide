@@ -49,7 +49,9 @@ function cardStack() {
   this.makeDeck = cardDeck;
   this.shuffleDeck = cardShuffle;
   this.deckDeal = cardsDeal;
+  this.draw = cardDraw;
   this.addCard = addCards;
+  this.combine = cardsCombine;
 }
 
 function royalStack() {
@@ -57,12 +59,12 @@ function royalStack() {
   this.makeRoyals = royalDeck;
 }
 
-deck = new cardStack();
+var deck = new cardStack();
+var hand = new cardStack();
+var discard = new cardStack();
+var royals = new royalStack();
 deck.makeDeck();
 deck.shuffleDeck();
-hand = new cardStack();
-discard = new cardStack();
-royals = new royalStack();
 royals.makeRoyals();
 
 // standard deck creation
@@ -99,32 +101,30 @@ function cardShuffle() {
       this.cards[j] = this.cards[k];
       this.cards[k] = temp;
     }
+    cardVolley();
 }
 
-// deals cards
+// combines cards
 
-function cardsDeal() {
-
-  if (this.cards.length > 0)
-    return this.cards.shift();
-  else
-    return null;
+function cardsCombine(stack) {
+  this.cards = this.cards.concat(stack.cards)
+  stack.cards = new Array();
 }
 
-function addCards(card) {
-  this.cards.push(card);
-}
+// draws cards
 
-function deal() {
-  if (deck === null) return;
-  if (deck.cards.length < 3)
-    alert("Not enough cards.");
-  else {
-    // discard();
-    for (var i = 0; i < 3; i++)
-      hand.addCard(deck.deckDeal());
+function cardDraw(n) {
+
+  var card;
+
+  if (n >= 0 && n < this.cards.length) {
+    card = this.cards[n];
+    this.cards.splice(n, 1);
   }
-  cardVolley();
+  else
+    card = null;
+
+  return card;
 }
 
 // creates cards
@@ -165,6 +165,49 @@ function makeCard() {
   return card;
 }
 
+// discards
+
+function discards() {
+  if (deck === null) return;
+  discard.combine(hand);
+  cardVolley();
+}
+
+// resets
+
+function reset() {
+  if (deck === null) return;
+  discard.combine(hand);
+  deck.combine(discard);
+  cardVolley();
+}
+
+// deals cards
+
+function cardsDeal() {
+
+  if (this.cards.length > 0)
+    return this.cards.shift();
+  else
+    return null;
+}
+
+function addCards(card) {
+  this.cards.push(card);
+}
+
+function deal() {
+  if (deck === null) return;
+  if (deck.cards.length < 3)
+    alert("Not enough cards.");
+  else {
+    discards();
+    for (var i = 0; i < 3; i++)
+      hand.addCard(deck.deckDeal());
+  }
+  cardVolley();
+}
+
 // sets volley
 
 function cardVolley() {
@@ -183,29 +226,27 @@ function cardVolley() {
     top += .005;
   }
 
-  var flop = $(".deal");
-  // while (flop.firstChild !== null)
-  //   flop.removeChild(flop.firstChild);
-  for (var j = 0; j < hand.cards.length; j++) {
-    card = hand.cards[j].createCard();
-    card.css("margin-left", left + "em");
+  var starter = $(".deal");
+  // while (starter.firstChild !== null)
+  //   starter.removeChild(starter.firstChild);
+  for (var i = 0; i < hand.cards.length; i++) {
+    card = hand.cards[i].createCard();
     card.css("margin-top", top + "em");
-    flop.append(card);
-    left += 3.5;
-    top += 2;
+    starter.append(card);
+    top += 7;
   }
 
-  // var discards = document.getElementsByClassName("discard");
-  // while (discard.firstChild != null)
-  //   discard.removeChild(starter.firstChild);
-  // for (var i = 0; i < discards.cards.length; i++) {
-  //   card = hand.cards[i].createCard();
-  //   card.style.left = left + "em";
-  //   card.style.top = top + "em";
-  //   discards.appendChild(card);
-  //   left += .010;
-  //   top += .005;
-  // }
+  var starter = $(".discard");
+  // while (starter.firstChild !== null)
+  //   starter.removeChild(starter.firstChild);
+  for (var i = discard.cards.length - 0; i < discard.cards.length; i++) {
+    card = discard.cards[i].createCard();
+    card.css("margin-left", left + "em");
+    card.css("margin-top", top + "em");
+    starter.append(card);
+    left += .010;
+    top += .005;
+  }
 }
 
 // inserts protagonists
@@ -244,11 +285,12 @@ $('.opponent_three .queen').append(opp3Queen.createCard());
 $('.opponent_three .health_king').text(opp3King.cardHealth);
 $('.opponent_three .health_queen').text(opp3Queen.cardHealth);
 
-cardVolley();
+// cardVolley();
 
 // health bars
 
 $(".volley").on("click", deal());
+$(".tally").on("click", discards());
 
 // You will eventually also have a Discard Pile and a Graveyard.
 
