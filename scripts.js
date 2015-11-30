@@ -229,7 +229,6 @@ function changeScore() {
     } else {
       var cardVal = parseInt(hand.cards[i].value);
     }
-
     if (playerKing.suit === hand.cards[i].suit && cardVal % 2 !== 0) {
       playerKing.cardHealth = playerKing.cardHealth - cardVal;
     } else if (playerQueen.suit === hand.cards[i].suit && cardVal % 2 == 0) {
@@ -248,6 +247,7 @@ function changeScore() {
       opp3Queen.cardHealth = opp3Queen.cardHealth - cardVal;
     }
   }
+  winCondition();
   if (playerQueen.cardHealth <= 0) {
   $('.play_area .health_queen').text("0");
   $('.play_area .queen').attr('id','dead');
@@ -296,9 +296,6 @@ function changeScore() {
   } else {
     $('.opponent_three .health_king').text(opp3King.cardHealth);
   }
-  if (playerQueen.cardHealth == 0 && playerKing.cardHealth == 0) {
-    $('.play_area').attr('id','lose');
-  }
 }
 
 // discards
@@ -342,7 +339,7 @@ function cardVolley() {
     card = hand.cards[i].createCard();
     card.css("margin-top", top + "em");
     starter.append(card);
-    top += 7;
+    top += 10;
   }
 
   var starter = $(".discard");
@@ -357,16 +354,25 @@ function cardVolley() {
   }
 }
 
+function winCondition() {
+  if (playerQueen.cardHealth <= 0 && playerKing.cardHealth <= 0) {
+    confirm('You lost. Play again?');
+    $(".low_bar").append(($('<button>').attr('type','button').attr('class','restart').text("Restart")));
+  } else if (opp1King.cardHealth <= 0 && opp1Queen.cardHealth <= 0 && opp2King.cardHealth <= 0 && opp2Queen.cardHealth <= 0 && opp3King.cardHealth <= 0 && opp3Queen.cardHealth <= 0) {
+    confirm('You won! Play again?');
+    $(".low_bar").append(($('<button>').attr('type','button').attr('class','restart').text("Restart")));
+  }
+}
+
+function startAgain() {
+  location.reload();
+}
 
 // event listeners
 
 $(".flop").on("click", deal);
 $(".tally").on("click", changeScore);
 $(".reshuffle").on("click", reset);
-
-
-// setTimeout(deal, 3500);
-// setTimeout(deal, 7000);
-// setTimeout(deal, 10000);
+$("body").on("click", ".restart", startAgain);
 
 }
