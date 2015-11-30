@@ -4,7 +4,7 @@
   margin: auto;
   padding: 0;
   text-align: center;
-  background-color: purple;
+  font-family: 'Alegreya', serif;
 }
 .card {
   background: url('http://lorempixel.com/80/130');
@@ -20,29 +20,37 @@
   margin: 0 auto;
   border: 1px solid black;
 }
-header {
-  height: 15%;
-  width: 100%;
-  margin-top: 2em;
+h1 {
+  font-family: 'Berkshire Swash', cursive;
+  font-size: 6em;
+  margin: 0 0 .25em 0;
 }
-/*h1*/
-/*h2*/
+.opponent_one {
+  font-family: 'Aladin', cursive;
+}
+.opponent_two {
+  font-family: 'Walter Turncoat', cursive;
+}
+.opponent_three {
+  font-family: 'Caveat Brush', cursive;
+}
 content {
   height: 80%;
   width: 80%;
-  background-color: blue;
 }
 .opponent_bar {
   height: 10%;
   width: 80%;
-  background-color: red;
   float: right;
 }
 .opponent_one, .opponent_two, .opponent_three {
   width: 25%;
   display: inline-block;
   margin: 0 1.5em;
-  background-color: gray;
+  background-color: silver;
+  border: 5px black solid;
+  height: 17em;
+  vertical-align: top;
 }
 .king, .queen {
   width: 35%;
@@ -63,12 +71,10 @@ content {
   width: 10%;
   height: 16em;
   position: relative;
-  background-color: lightgreen;
 }
 .deck {
   height: 30%;
   width: 15%;
-  background-color: tan;
   position: relative;
 }
 .deck .card {
@@ -93,15 +99,22 @@ content {
   width: 80%;
   background-color: green;
   float: right;
+  margin: 1em 0 0;
+  padding: 1em 0 .15em;
+  border: 10px saddlebrown solid;
+}
+.play_area .king .card .royal, .play_area .queen .card .royal {
+  height: 240px;
+  width: 150px;
+  font-size: 3em;
+}
+.play_area .king .card .royal .index, .play_area .queen .card .royal .index {
+  margin-top: 30%;
 }
 .low_bar {
   height: 15%;
   width: 80%;
-  background-color: silver;
   float: right;
-}
-.royal {
-  background-color: silver;
 }
 .index {
   font-size: 2em;
@@ -110,11 +123,14 @@ content {
 #red {
   color: red;
 }
-#dead {
-	width: 80px;
-	height: 130px;
+#dead .card .royal, #dead .card .royal #red {
 	background: red;
+  color: white;
 }
-
-/*.discard
-.graveyard*/
+button {
+  height: 50px;
+  width: 130px;
+  margin: 20px;
+  font-size: 1.5em;
+  font-family: 'Alegreya', serif;
+}
