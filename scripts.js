@@ -2,7 +2,7 @@ window.onload = init;
 
 function init(){
 
-//sets value of card suits, face values, and assigns health to queen & king
+// arrays of card suits, face values
 
 var cardSuits = [
   "Spades",
@@ -30,11 +30,15 @@ var royalValues = [
   "K"
 ];
 
+// prototype for regular cards
+
 function cardRegular(cardValue,cardSuit) {
   this.suit = cardSuit;
   this.value = cardValue;
   this.createCard = makeCard;
 }
+
+// prototype for royalty cards
 
 function cardRoyalty(royalValue,cardSuit) {
   this.suit = cardSuit;
@@ -42,6 +46,8 @@ function cardRoyalty(royalValue,cardSuit) {
   this.cardHealth = 21;
   this.createCard = makeCard;
 }
+
+// creates a deck of cards
 
 function cardStack() {
   this.cards = [];
@@ -52,10 +58,14 @@ function cardStack() {
   this.combine = cardsCombine;
 }
 
+// creates a deck of royals
+
 function royalStack() {
   this.cards = [];
   this.makeRoyals = royalDeck;
 }
+
+// kicks off the game: creates deck, flop, discard, and royals, makes the deck, shuffles it, and makes the royals deck. finally creates flop deck
 
 deck = new cardStack();
 hand = new cardStack();
@@ -66,7 +76,7 @@ deck.shuffleDeck();
 royals.makeRoyals();
 cardVolley();
 
-// inserts protagonists
+// inserts protagonists with health
 
 var playerKing = royals.cards[1];
 var playerQueen = royals.cards[0];
@@ -76,7 +86,7 @@ $('.play_area .queen').append(playerQueen.createCard());
 $('.play_area .health_king').text(playerKing.cardHealth);
 $('.play_area .health_queen').text(playerQueen.cardHealth);
 
-// inserts opponents
+// inserts opponents with health
 
 var opp1King = royals.cards[3];
 var opp1Queen = royals.cards[2];
@@ -126,7 +136,7 @@ function royalDeck() {
   }
 }
 
-// shuffles cards
+// shuffle function
 
 function cardShuffle() {
   for (var i = 0; i < 3; i++)
@@ -148,7 +158,8 @@ function cardsDeal() {
     return null;
 }
 
-// adds cards
+// adds cards to deck
+
 function addCards(card) {
   this.cards.push(card);
 }
@@ -167,6 +178,9 @@ function makeCard() {
   var front = $('<div>').attr('class', 'front');
   var royal = $('<div>').attr('class', 'royal');
   var spot = $('<div>').attr('class','index');
+
+// assigns suit icons
+
   var spotChar;
   switch (this.suit) {
     case "Clubs" :
@@ -184,8 +198,9 @@ function makeCard() {
     spotChar = "\u2660";
     break;
   }
-
   spot.append(document.createTextNode(this.value + spotChar));
+
+// assigns values to royal versus regular cards
 
   if (this.value === "K" || this.value === "Q") {
     royal.append(spot);
@@ -198,7 +213,7 @@ function makeCard() {
   return card;
 }
 
-// shuffles
+// shuffles cards in game
 
 function shuffle() {
   if (deck == null) return;
@@ -206,7 +221,7 @@ function shuffle() {
   cardVolley();
 }
 
-// deals cards
+// deals cards in game
 
 function deal() {
   if (deck == null) return;
@@ -220,7 +235,12 @@ function deal() {
   cardVolley();
 }
 
+// keeps score
+
 function changeScore() {
+  
+  // this part assigns random damage and healing values to jacks and aces
+
   for (var i = 0; i < hand.cards.length; i++) {
     if (hand.cards[i].value === "A") {
       var cardVal = -Math.floor((Math.random()*10));
@@ -229,6 +249,9 @@ function changeScore() {
     } else {
       var cardVal = parseInt(hand.cards[i].value);
     }
+
+    // this part assigns damage and healing to proper royal: odds for kings, even for queens
+
     if (playerKing.suit === hand.cards[i].suit && cardVal % 2 !== 0) {
       playerKing.cardHealth = playerKing.cardHealth - cardVal;
     } else if (playerQueen.suit === hand.cards[i].suit && cardVal % 2 == 0) {
@@ -247,16 +270,22 @@ function changeScore() {
       opp3Queen.cardHealth = opp3Queen.cardHealth - cardVal;
     }
   }
+
+  // checks for win conditions being met. if not...
+
   winCondition();
+
+  // this will assign values to dead royals
+
   if (playerQueen.cardHealth <= 0) {
-  $('.play_area .health_queen').text("0");
-  $('.play_area .queen').attr('id','dead');
+    $('.play_area .health_queen').text("0");
+    $('.play_area .queen').attr('id','dead');
   } else {
-  $('.play_area .health_queen').text(playerQueen.cardHealth);
+    $('.play_area .health_queen').text(playerQueen.cardHealth);
   }
   if (playerKing.cardHealth <= 0) {
-  $('.play_area .health_king').text("0");
-  $('.play_area .king').attr('id','dead');
+    $('.play_area .health_king').text("0");
+    $('.play_area .king').attr('id','dead');
   } else {
   $('.play_area .health_king').text(playerKing.cardHealth);
   }
@@ -298,7 +327,7 @@ function changeScore() {
   }
 }
 
-// discards
+// discards in game
 
 function discards() {
   if (deck == null) return;
@@ -306,7 +335,7 @@ function discards() {
   cardVolley();
 }
 
-// resets
+// resets the deck in game
 
 function reset() {
   var starter;
@@ -319,6 +348,9 @@ function reset() {
 // sets volley
 
 function cardVolley() {
+
+  //this portion creates the cards and deck from which the flop is drawn. note that cards faces are invisible for now
+
   var left = 0;
   var top = 0;
   var starter = $(".deck");
@@ -333,6 +365,8 @@ function cardVolley() {
     top += .005;
   }
 
+  // this portion creates the flop
+
   var starter = $(".deal");
   starter[0].innerHTML = "";
   for (var i = 0; i < hand.cards.length; i++) {
@@ -341,6 +375,8 @@ function cardVolley() {
     starter.append(card);
     top += 10;
   }
+
+  // this portion creates the discard pile
 
   var starter = $(".discard");
   starter[0].innerHTML = "";
@@ -354,6 +390,8 @@ function cardVolley() {
   }
 }
 
+// win conditions and creates a button to play again
+
 function winCondition() {
   if (playerQueen.cardHealth <= 0 && playerKing.cardHealth <= 0) {
     confirm('You lost. Play again?');
@@ -363,6 +401,8 @@ function winCondition() {
     $(".low_bar").append(($('<button>').attr('type','button').attr('class','restart').text("Restart")));
   }
 }
+
+// function to reload the page
 
 function startAgain() {
   location.reload();
